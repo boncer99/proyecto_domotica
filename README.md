@@ -8,6 +8,9 @@
 - 🌐 **Incluir una interfaz web** (opcional) desplegada en **[Vercel](https://vercel.com/)** como valor agregado
 
 
+**1.1	Diagrama de arquitectura.**
+El sistema permite a los usuarios interactuar mediante lenguaje natural para realizar consultas de información en una base de datos. Utiliza herramientas personalizadas (tools) para identificar la tabla adecuada, generar y ejecutar una consulta SQL,  y convertir el resultado en una respuesta. Todo el proceso se realiza mediante un agente basado en LangChain y la API de OpenAI. 
+
 
 
 
