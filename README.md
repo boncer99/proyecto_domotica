@@ -31,3 +31,40 @@ Se utiliza para ejecutar una consulta SQL directamente en la base de datos y ret
 ### **3.5	generar_respuesta(question: str, sql_query: str, response: str) -> str**
 Se encarga de generar una respuesta en lenguaje natural basada en la pregunta original, la consulta SQL generada y los resultados de la base de datos.
 Se identifica la tabla relacionada con la pregunta mediante seleccionar_tabla() y se utiliza una plantilla (sqlnatural_chain) para que el modelo de lenguaje genere una explicación natural combinando la pregunta, la SQL generada y la respuesta obtenida, devolviendo una respuesta comprensible para el usuario final.
+
+
+## **3.	Flujo de funcionamiento  (Tool Invocation)**
+El agente sigue el modelo ReAct (Razonamiento + Acción), por lo que decide qué herramienta debe usar en cada paso. Se seguirá el siguiente flujo de herramientas:
+
+**a) Herramienta 1: **
+•	get_schema(question: str) para determinar qué tabla usar y recuperar su esquema.
+•	Recibe la variable question (pregunta del usuario).
+o	Llama a seleccionar_tabla_v2(question) → retorna por ejemplo "temperatura_registros".
+o	Consulta a db_data.get_table_names() para verificar si la tabla existe.
+o	Si es válida, llama a db_data.get_table_info([tabla]) y retorna el esquema.
+•	Variable de salida: schema (estructura de la tabla en SQL).
+b) Herramienta 2: generar_sql(question: str). Generar una sentencia SQL válida.
+•	Recibe la variable: question (misma pregunta original).
+•	Llama a seleccionar_tabla(question) → determina la tabla.
+o	Recupera el schema de esa tabla.
+o	Ingresa question, table y schema en un prompt (promptsql) que genera una SQL.
+o	Usa sqlchain.invoke(...) para obtener algo como: SELECT MAX(temperatura) FROM temperatura_registros WHERE fecha >= CURRENT_DATE - INTERVAL '30 days';
+•	Variable de salida: sql_query.
+c) Herramienta 3: run_query(query: str). Ejecutar la consulta SQL sobre la base de datos.
+•	Variable que recibe: query (la consulta SQL generada).
+o	Usa db_data.run(query) que internamente llama al motor SQL (Postgres).
+o	El resultado puede ser, por ejemplo: [{'max': 34.2}] (puede variar según el resultado de la base).
+•	Variable de salida: response.
+d) Herramienta 4: generar_respuesta(question, sql_query, response). Transformar la respuesta cruda de SQL en una explicación clara para el usuario.
+•	Variable recibida es:
+o	question
+o	sql_query: la consulta generada.
+o	response: el resultado del SQL.
+•	Proceso interno:
+o	Llama a seleccionar_tabla(question) para identificar la tabla.
+o	Usa db_data.get_table_info([tabla]) para obtener schema.
+o	Inserta question, schema, table, sql_query y response en un prompt de resumen (promptsqlquery).
+o	El modelo genera una frase natural como: "El valor máximo de temperatura registrado en el último mes fue 34.2°C."
+
+
+
