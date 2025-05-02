@@ -75,3 +75,38 @@ El agente sigue el modelo ReAct (Razonamiento + Acción), por lo que decide qué
   - Inserta `question`, `schema`, `table`, `sql_query` y `response` en un prompt de resumen (`promptsqlquery`).  
   - El modelo genera una frase natural como:  
     > "El valor máximo de temperatura registrado en el último mes fue 34.2°C."
+
+# ** 4. Instrucciones de ejecución**
+
+### 5.1 Ejecutar el programa en Google Colab
+
+**a) Instala las librerías necesarias al inicio del notebook:**  
+- Se crean archivos las claves de openai  
+- Generar una API Key de OpenAI  
+- Enlace: https://platform.openai.com/account/api-keys  
+- Haz clic en “Create new secret key”.  
+- Copia la clave generada y úsala como `OPENAI_API_KEY`.  
+
+**b) Generar una API Key de OpenAI**  
+- Ir a: https://platform.openai.com/account/api-keys  
+- Haz clic en “Create new secret key”.  
+- Copia la clave generada y úsala como `OPENAI_API_KEY`.  
+
+**c) Crear una base de datos PostgreSQL en Railway**  
+- Entra a: https://railway.app  
+- Regístrate e inicia sesión.  
+- Crea un nuevo proyecto → selecciona **PostgreSQL Plugin**.  
+- Copia la Database URL (formato: `postgresql://usuario:clave@host:puerto/db`).  
+- Se usa dentro de un archivo para importarlo.  
+
+**d) Construir y administrar la base con pgAdmin**  
+- Descarga e instala pgAdmin desde: https://www.pgadmin.org/download/  
+- Abre pgAdmin y crea una nueva conexión:  
+  - **Hostname**: copiado desde Railway  
+  - **User, Password, Port**: desde Railway también  
+- Ingresar el script de creación de tablas y datos.  
+
+**e) Construcción del agente**  
+Una vez importadas las llaves de acceso y creación de herramientas se construye el agente para ejecutarlo con preguntas del usuario; el agente elige automáticamente qué herramientas usar según el contexto y devuelve una respuesta precisa.  
+La pregunta del usuario, escrita en lenguaje natural, se encapsula en un `HumanMessage` y se envía al agente junto con un identificador de hilo (`thread_id`) que permite rastrear la conversación.  
+El agente analiza la pregunta, selecciona las herramientas necesarias. Finalmente, la respuesta generada por el agente se imprime usando `pretty_print()`.
