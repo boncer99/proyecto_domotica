@@ -76,7 +76,7 @@ El agente sigue el modelo ReAct (Razonamiento + Acción), por lo que decide qué
   - El modelo genera una frase natural como:  
     > "El valor máximo de temperatura registrado en el último mes fue 34.2°C."
 
-# ** 4. Instrucciones de ejecución**
+# **4. Instrucciones de ejecución**
 
 ### 5.1 Ejecutar el programa en Google Colab
 
