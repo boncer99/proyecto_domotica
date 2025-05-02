@@ -36,13 +36,14 @@ Se identifica la tabla relacionada con la pregunta mediante seleccionar_tabla() 
 ## **3.	Flujo de funcionamiento  (Tool Invocation)**
 El agente sigue el modelo ReAct (Razonamiento + Acción), por lo que decide qué herramienta debe usar en cada paso. Se seguirá el siguiente flujo de herramientas:
 
-**a) Herramienta 1: **
-•	get_schema(question: str) para determinar qué tabla usar y recuperar su esquema.
-•	Recibe la variable question (pregunta del usuario).
-o	Llama a seleccionar_tabla_v2(question) → retorna por ejemplo "temperatura_registros".
-o	Consulta a db_data.get_table_names() para verificar si la tabla existe.
-o	Si es válida, llama a db_data.get_table_info([tabla]) y retorna el esquema.
-•	Variable de salida: schema (estructura de la tabla en SQL).
+**a)Herramienta 1:**
++ get_schema(question: str) para determinar qué tabla usar y recuperar su esquema.
++	Recibe la variable question (pregunta del usuario).
+++	Llama a seleccionar_tabla_v2(question) → retorna por ejemplo "temperatura_registros".
+++	Consulta a db_data.get_table_names() para verificar si la tabla existe.
+++	Si es válida, llama a db_data.get_table_info([tabla]) y retorna el esquema.
++	Variable de salida: schema (estructura de la tabla en SQL).
+
 b) Herramienta 2: generar_sql(question: str). Generar una sentencia SQL válida.
 •	Recibe la variable: question (misma pregunta original).
 •	Llama a seleccionar_tabla(question) → determina la tabla.
