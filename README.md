@@ -1,2 +1,8 @@
-### Objetivo General:
-Diseñar y construir un agente especializado que utilice múltiples herramientas personalizadas (y opcionalmente herramientas de terceros), capaz de ejecutar tareas de forma autónoma y eficiente. El agente debe ser funcional desde un entorno programático, y opcionalmente puede incluir una interfaz web desplegada en Vercel como valor agregado.
+## 🎯 **Objetivo General**
+
+**Diseñar y construir un agente inteligente especializado**, capaz de:
+
+- 🛠️ **Utilizar múltiples herramientas personalizadas** (y opcionalmente herramientas de terceros)  
+- 🤖 **Ejecutar tareas de forma autónoma y eficiente**
+- 💻 Ser **funcional desde un entorno programático** (por ejemplo, en Google Colab o scripts locales)
+- 🌐 **Incluir una interfaz web** (opcional) desplegada en **[Vercel](https://vercel.com/)** como valor agregado
